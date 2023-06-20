@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}- FlaskApp</title>
+    <style>        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --sides: 20vw;
+            --cw: calc(100vw - var(--sides) - var(--sides));
+        }
+
+        body {
+            width: var(--cw);
+            margin: 0 var(--sides) 0 var(--sides);
+            background-color: var(--background);
+            font-family: 'Inter', sans-serif;
+            transition: width 0.5s ease;
+        }
+
+        body.show-content {
+            width: 40vw;
+
+        }
+
+        .article {
+            padding: 20px;
+            border-radius: 16px;
+            margin: 0;
+            background-color: var(--background);
+            /**border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);**/
+        }
+
+        .article-wrap-bg {
+            border-radius: 16px;
+            position: relative;
+            margin: 5px;
+        }
+
+        .article-wrap-bg::before {
+            position: absolute;
+            background:rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            border-radius: 16px;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            content: "";
+        }
+
+        .article-wrap {
+            padding: 1px;
+            position: relative;
+            border-radius: 16px;
+            transition: background 0.2s ease;
+        }
+
+        .article-wrap::before {
+            background: linear-gradient(90deg, #7928CA, #FF0080);
+            position: absolute;
+            content: "";
+            z-index: -1;
+            transition: opacity 0.2s ease;
+            opacity: 0;
+            border-radius: 16px;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .article-wrap:hover::before {
+            opacity: 1;
+        }
+
+
+        #main-nav {
+            background-color: transparent;
+            backdrop-filter: blur(3px);
+            padding: 10px;
+            width: calc(var(--cw) - 20px);
+        }
+
+        nav {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            background-color: transparent;
+            backdrop-filter: blur(3px);
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            column-gap: 8px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            justify-content: flex-start;
+            color: var(--text-secondary);
+        }
+
+        .LogoText {
+            font-family: 'Bruno Ace SC', cursive;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 2em;
+        }
+
+        .dark {
+            --background: #000;
+            --foreground: #fff;
+            --text-primary: #fff;
+            --text-secondary: rgb(136, 136, 136);
+        }
+
+        .light {
+            --background-primary: #fff;
+            --background-secondary: #f9f9fb;
+            --text-primary: #1b1b1b;
+            --text-secondary: #4e4e4e;
+            --border-primary: #cdcdcd;
+        }
+
+        a:link {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: var(--text-secondary);
+            text-decoration: dotted;
+        }
+
+        a:hover {
+            color: var(--text-secondary);
+            text-decoration: dotted;
+        }
+
+        a:active {
+            color: var(--text-secondary);
+            text-decoration: dotted;
+        } 
+        .content {
+            top: 42px;
+            position: relative;
+        }
+
+        .ntr-div {
+            display: flex;
+            gap: 1em 2em;
+        }
+
+        .ntr-sign {
+            width: max-content;
+            height: fit-content;
+            margin: 0;
+        }
+
+        .ntr-content {
+            width: max-content;
+            height: fit-content;
+            margin: 0;
+        }
+
+        .content-about {
+            display: flex; 
+            flex-direction: row; 
+        }
+
+        .content {
+            width: 60vw;
+            transition: width 0.5s ease;
+            top: 60px;
+        }
+
+        .content.show-content {
+            width: 40vw;
+        }
+
+        .about-headline {
+            margin-top: 21.44;
+            margin-bottom: 21.44;
+        }
+
+        .about-section {
+            width: 0;
+            position: relative;
+            transition: width 0.5 ease;
+            display: none;
+            margin-top: 60px;
+        }
+
+        .about-section::before {
+            position: absolute;
+            content: '';
+        }
+        .about-section.show-content {
+            width: 20vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-section.show-content::before {
+
+        }
+
+        .about-section {
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .about-section::before {
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .about-section.opacity-show::before {
+            opacity: 0;
+        }
+
+        .about-section.opacity-show {
+            opacity: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        .about-content {
+            margin: 5px;
+        }
+
+        .about-info {
+            padding: 20px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .about-todo {
+            color: var(--text-secondary);
+        }
+
+        .article-name::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            background-image: linear-gradient(90deg, #7928CA, #FF0080);
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .article-name:hover::after {
+            width: 100%;
+        }
+
+        .article-name {
+            position: relative;
+        }
+
+
+        .about-headline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            background-image: linear-gradient(90deg, #7928CA, #FF0080);
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .about-headline:hover::after {
+            width: 100%;
+        }
+
+        .about-headline {
+            position: relative;
+        }
+
+        .content-headline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            background-image: linear-gradient(90deg, #7928CA, #FF0080);
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .content-headline:hover::after {
+            width: 100%;
+        }
+
+        .content-headline.show-content:hover::after {
+            width: calc(100% - 5px);
+        }
+
+        .content-headline {
+            position: relative;
+        }
+
+        /**EXPERIMENTAL:**/
+        .article-name {
+            background: -webkit-linear-gradient(0deg, #7928CA, #FF0080);
+            -webkit-background-clip: text; /* Doesn't work on IE*/
+            -moz-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: -0.08vw -0.08vw 0 white;
+            width: fit-content;
+        }
+
+        #logoText  {
+            filter: url(#noise);
+        }
+    </style>
+</head>
+<body class="dark">
+    <nav id="main-nav">
+        <a href="{{ url_for('index') }}" class="LogoText" id="logoText" style="--start-color:#7928CA;--end-color:#FF0080;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-image: linear-gradient(90deg,var(--start-color),var(--end-color));">Dexify</a>
+        <svg style="width: 0; height: 0;">
+            <defs>
+                <filter id="noise">
+                    <feTurbulence baseFrequency="0.8" seed="0" type="fractalNoise" result="static">
+                        <animate
+                            attributeName="seed"
+                            values="0;100"
+                            dur="1000ms"
+                            begin="logoText.mouseenter"
+                            repeatCount="100"
+                        />
+                    </feTurbulence>
+                    <feDisplacementMap in="SourceGraphic" in2="static" scale="0" xChannelSelector="R" yChannelSelector="G">
+                        <animate
+                            attributeName="scale"
+                            values="0;20"
+                            dur="1000ms"
+                            fill="freeze"
+                            begin="logoText.mouseenter"
+                        />
+                        <animate 
+                            attributeName="scale"
+                            values="20;0"
+                            dur="1000ms"
+                            fill="freeze"
+                            begin="logoText.mouseleave"
+                        />
+                    </feDisplacementMap>
+                </filter>
+            </defs>
+        </svg>
+
+        
+        <a href="#" id="About-btn" onclick="About()">About</a>
+    </nav>
+    <div class="content-about">
+        <div class="content" id="content">
+            {% block content %} {% endblock %}
+        </div>
+        <div class="about-section" id="about-section">
+            <h1 class="about-headline" style="color: var(--text-primary)">About</h3>
+            <div class="about-content">
+                <p class="about-info">This is a website to display items in a database.</p>
+                <div class="about-todo">
+                    <h2>
+                        To-Do:
+                    </h2>
+                    <ul style="color: var(--text-secondary);">
+                        <li style="color: #1f1f1f;">Article Name gradient shadow on hover + transition</li>
+                        <li style="color: #454545;">or: Article name underline transition (fade-in/out or draw) </li>
+                        <li style="color: #454545;">About section show content opacity transition</li>
+                        <li>About-btn color change + transition</li>
+                        <li>or: About button underline transition (fade-in/out or draw)</li>
+                        <li>Name shadow em instead of vw</li>
+                        <li>Logo hover fracatal noise effect</li>
+                        <li>dont show navbar bottom border if at the top of the page</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            function About(){
+                const contentElement = document.getElementById('content');
+                const aboutSectionElement = document.getElementById('about-section');
+                const contentHeadline = document.getElementById('content-headline')
+        
+                contentElement.classList.toggle('show-content');
+
+                if (aboutSectionElement.classList.contains('show-content')) {
+                    aboutSectionElement.classList.toggle('show-content');
+                    contentHeadline.classList.toggle('show-content')
+                    setTimeout(() => {
+                        aboutSectionElement.classList.toggle('opacity-show')
+                    }, 200)
+                } else {
+                    setTimeout(() => {
+                        aboutSectionElement.classList.toggle('show-content');
+                        contentHeadline.classList.toggle('show-content')
+                        setTimeout(() => {
+                            aboutSectionElement.classList.toggle('opacity-show')
+                        }, 200)
+                    }, 500)
+                }
+                
+
+                //document.getElementById('content').classList.toggle('show-content')
+                //document.getElementById('about-section').classList.toggle('show-content')
+            }
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="content-headline" id="content-headline" style="color: #fff;font-family: 'Inter', sans-serif;">{% block title %} Articles {% endblock %}</h1>
+    {% for article in article %}
+        <div class="article-wrap-bg">
+            <div class="article-wrap">
+                <div class='article' style="color: #fff; font-family: 'Inter', sans-serif;">
+                    <h2 style="margin-top: 0;" class="article-name">{{ article['name'] }}</h2>
+                    <h3>Price: {{ article['price'] }}€</h3>
+                    <p>Quantity: {{ article['quantity'] }}{{ article['unit'] }}</p>
+                    <p>Ingredients: {{ article['ingredients'] }}</p>
+                    <div class="ntr-div">
+                        <p class="ntr-sign">Nutritional Values: </p>
+                        <!--<p>Nutritional Values: {{ article['nuts']}}</p>!-->
+                        <p class="ntr-content">
+                            {% for nutrient, value in article['nuts'].items() %}
+                                {{"{nutrient}: {value}".format(nutrient=nutrient,value=value)}}<br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

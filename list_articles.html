@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>REWE Articles</title>
+</head>
+<body>
+    <h1>REWE Articles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Ingredients</th>
+                <th>Nutritional Values</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{ article.name }}</td>
+                <td>{{ article.price }}</td>
+                <td>{{ article.quantity }}</td>
+                <td>{{ article.unit }}</td>
+                <td>{{ article.ingredients | join(', ') }}</td>
+                <td>
+                    <ul>
+                        {% for nutritional_value in article.nutritional_values %}
+                        <li>{{ nutritional_value[0] }}: {{ nutritional_value[1] }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
