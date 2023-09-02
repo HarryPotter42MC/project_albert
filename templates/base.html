@@ -360,8 +360,8 @@
         </svg>
 
         
-        <a href="#" id="About-btn" onclick="callsidebar(about)">About</a>
-        <a href="#" id="Content-btn" onclick="callsidebar(contact)">Contact</a>
+        <a href="#" id="About-btn" onclick="callsidebar()">About</a>
+        <a href="#" id="Content-btn" onclick="callsidebar()">Contact</a>
     </nav>
     <div class="content-about">
         <div class="content" id="content">
@@ -398,8 +398,74 @@
     </div>
 
     <script>
-            function callsidebar(selectedContentElement){
-                /**const contentElement = document.getElementById('content');
+            function callsidebar(){
+
+                function checksidebarshown() {
+                    if (document.getElementById('about-section').classList.contains('show-content')) {
+                        return true;
+                    }
+                    else if (document.getElementById('contact-section').classList.contains('show-content')) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                const selectedContentElement = document.getElementById('about-section');
+                const sidebarshown = checksidebarshown()
+
+                if (sidebarshown == false) {
+                    showsidebar();
+                } 
+                else {
+                    if (selectedContentElement.classList.contains('show-content')) {
+                        hidesidebar();
+                    } else {
+                        // hide all content elements
+                        // show selectedContent
+                        selectedContentElement.classList.addClass('show-content')
+                    }
+                }
+                
+                function showsidebar() {
+                    const contentElement = document.getElementById('content');
+                    const selectedContentElement = document.getElementById('about-section');
+                    const contentHeadline = document.getElementById('content-headline')
+            
+                    contentElement.classList.toggle('show-content');
+
+                    selectedContentElement.classList.toggle('show-content');
+                    contentHeadline.classList.toggle('show-content')
+                    setTimeout(() => {
+                        selectedContentElement.classList.toggle('opacity-show')
+                    }, 200)
+                }
+
+                function hidesidebar() {
+                    const contentElement = document.getElementById('content');
+                    const selectedContentElement = document.getElementById('about-section');
+                    const contentHeadline = document.getElementById('content-headline')
+
+                    contentElement.classList.toggle('show-content');
+
+                    selectedContentElement.classList.toggle('show-content');
+                    contentHeadline.classList.toggle('show-content')
+                    setTimeout(() => {
+                        selectedContentElement.classList.toggle('opacity-show')
+                    }, 200)
+                }
+
+                function changesidebarcontent() {
+                    
+                }
+                //document.getElementById('content').classList.toggle('show-content')
+                //document.getElementById('about-section').classList.toggle('show-content')
+            }
+    </script>
+    <script>
+        function oldcallsidebar(){
+                const contentElement = document.getElementById('content');
                 const aboutSectionElement = document.getElementById('about-section');
                 const contentHeadline = document.getElementById('content-headline')
         
@@ -419,68 +485,8 @@
                             aboutSectionElement.classList.toggle('opacity-show')
                         }, 200)
                     }, 500)
-                }**/
-
-                // input: 
-                const selectedContentElement = document.getElementById('about-section');
-                const sidebarshown = checksidebarshown()
-
-                if (sidebarshown = false) {
-                    // show selectedContent
-                    selectedContentElement.classList.addClass('show-content')
-
-                    // show sidebar
-                    showsidebar()
-                } else {
-                    if (selectedContentElement.classList.contains('show-content')) {
-                        // hide selectedContent
-                        selectedContentElement.classList.removeClass('show-content')
-                        // hide sidebar
-                    } else {
-                        // hide all content elements
-                        // show selectedContent
-                        selectedContentElement.classList.addClass('show-content')
-                    }
                 }
-                
-                function checksidebarshown() {
-                    if (document.getElementById('about-section').classList.contains('show-content')) {
-                        return true;
-                    }
-                    else if (document.getElementById('contact-section').classList.contains('show-content')) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-
-                function showsidebar() {
-                    const contentElement = document.getElementById('content');
-                    const selectedContentElement = document.getElementById('about-section');
-                    const contentHeadline = document.getElementById('content-headline')
-            
-                    contentElement.classList.toggle('show-content');
-
-                    if (selectedContentElement.classList.contains('show-content')) {
-                        selectedContentElement.classList.toggle('show-content');
-                        contentHeadline.classList.toggle('show-content')
-                        setTimeout(() => {
-                            selectedContentElement.classList.toggle('opacity-show')
-                        }, 200)
-                    } else {
-                        setTimeout(() => {
-                            selectedContentElement.classList.toggle('show-content');
-                            contentHeadline.classList.toggle('show-content')
-                            setTimeout(() => {
-                                selectedContentElement.classList.toggle('opacity-show')
-                            }, 200)
-                        }, 500)
-                    }
-                }
-                //document.getElementById('content').classList.toggle('show-content')
-                //document.getElementById('about-section').classList.toggle('show-content')
-            }
+        }
     </script>
 </body>
 </html>
