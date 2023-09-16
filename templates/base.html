@@ -360,8 +360,9 @@
         </svg>
 
         
-        <a href="#" id="About-btn" onclick="oldcallsidebar()">About</a>
-        <a href="#" id="Content-btn" onclick="callsidebar()">Contact</a>
+        <a href="#" id="About-btn" onclick="callsidebar(document.getElementById('about-section'))">About</a>
+        <a href="#" id="Content-btn" onclick="callsidebar(document.getElementById('contact-section'))">Contact</a>
+        <a href="#" id="Edit-btn" onclick="callsidebar(document.getElementById('edit-section'))">Edit</a>
     </nav>
     <div class="content-about">
         <div class="content" id="content">
@@ -384,6 +385,12 @@
                         <li>Name shadow em instead of vw</li>
                         <li>Logo hover fracatal noise effect</li>
                         <li>dont show navbar bottom border if at the top of the page</li>
+                        <li>-----new-----</li>
+                        <li>opacity transition switchsidebar</li>
+                        <li>build API gate for editing DB</li>
+                        <li>add search bar to articles and search function</li>
+                        <li>contact formular</li>
+                        <li>fancy sidebar switch transition (noise svg or morph)</li>
                     </ul>
                 </div>
             </div>
@@ -392,72 +399,83 @@
             <h1 class="about-headline" style="color: var(--text-primary)">Contact</h3>
             <div class="about-content">
                 <p class="about-info">Contact the creator of this project</p>
+                <p class="about-info">Talk to me on discord <strong>harry2b2t</strong></p>
+            </div>
+        </div>
+        <div class="about-section" id="edit-section">
+            <h1 class="about-headline" style="color: var(--text-primary)">Edit Database</h3>
+            <div class="about-content">
+                <p class="about-info">You will be able to edit the content of this database here soon&trade;</p>
             </div>
         </div>
 
     </div>
 
     <script>
-            function callsidebar(){
+            function callsidebar(selectedContentElement){
 
                 function checksidebarshown() {
                     if (document.getElementById('about-section').classList.contains('show-content')) {
-                        return true;
+                        return document.getElementById('about-section');
                     }
                     else if (document.getElementById('contact-section').classList.contains('show-content')) {
-                        return true;
+                        return document.getElementById('contact-section');
+                    }
+                    else if (document.getElementById('edit-section').classList.contains('show-content')) {
+                        return document.getElementById('edit-section');
                     }
                     else {
                         return false;
                     }
                 }
 
-                const selectedContentElement = document.getElementById('about-section');
+                //const selectedContentElement = document.getElementById('about-section');
                 const sidebarshown = checksidebarshown()
+                console.log('sidebarshown', sidebarshown)
 
                 if (sidebarshown == false) {
-                    showsidebar();
+                    showsidebar(selectedContentElement);
                 } 
                 else {
                     if (selectedContentElement.classList.contains('show-content')) {
-                        hidesidebar();
+                        hidesidebar(selectedContentElement);
                     } else {
-                        // hide all content elements
-                        // show selectedContent
-                        selectedContentElement.classList.addClass('show-content')
+                        changesidebarcontent(selectedContentElement, sidebarshown);
                     }
                 }
                 
-                function showsidebar() {
+                function showsidebar(selectedContentElement) {
                     const contentElement = document.getElementById('content');
-                    const selectedContentElement = document.getElementById('about-section');
+                    //const selectedContentElement = document.getElementById('about-section');
                     const contentHeadline = document.getElementById('content-headline')
             
                     contentElement.classList.toggle('show-content');
-
-                    selectedContentElement.classList.toggle('show-content');
-                    contentHeadline.classList.toggle('show-content')
                     setTimeout(() => {
-                        selectedContentElement.classList.toggle('opacity-show')
-                    }, 200)
+                        selectedContentElement.classList.toggle('show-content');
+                        contentHeadline.classList.toggle('show-content')
+                        setTimeout(() => {
+                            selectedContentElement.classList.toggle('opacity-show')
+                        }, 200)
+                    }, 500)
                 }
 
-                function hidesidebar() {
+                function hidesidebar(selectedContentElement) {
                     const contentElement = document.getElementById('content');
-                    const selectedContentElement = document.getElementById('about-section');
+                    //const selectedContentElement = document.getElementById('about-section');
                     const contentHeadline = document.getElementById('content-headline')
 
                     contentElement.classList.toggle('show-content');
 
+                    selectedContentElement.classList.toggle('opacity-show')
                     selectedContentElement.classList.toggle('show-content');
                     contentHeadline.classList.toggle('show-content')
-                    setTimeout(() => {
-                        selectedContentElement.classList.toggle('opacity-show')
-                    }, 200)
                 }
 
-                function changesidebarcontent() {
-                    
+                function changesidebarcontent(selectedContentElement, sidebarshown) {
+                    sidebarshown.classList.remove('opacity-show')
+                    sidebarshown.classList.remove('show-content')
+                    selectedContentElement.classList.add('show-content')
+                    selectedContentElement.classList.add('opacity-show')
                 }
                 //document.getElementById('content').classList.toggle('show-content')
                 //document.getElementById('about-section').classList.toggle('show-content')
