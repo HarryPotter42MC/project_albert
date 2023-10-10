@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = "password"
 
 def get_db_connection():
-    conn = sqlite3.connect('articles.db')
+    conn = sqlite3.connect('dexify.db')
     conn.row_factory = sqlite3.Row
     return conn
 

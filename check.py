@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("articles.db")
+conn = sqlite3.connect("dexify.db")
 cursor = conn.cursor()
 
 

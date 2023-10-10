@@ -1,7 +1,29 @@
 import sqlite3
+import getpass
 
 
-conn = sqlite3.connect("articles.db")
+#start of login block
+
+database = {"root": "pw", "tha": "PW"}
+username = input("Enter Your Username : ")
+password = getpass.getpass("Enter Your Password : ")
+for i in database.keys():
+    if username == i:
+        while password != database.get(i):
+            password = getpass.getpass("Enter Your Password Again : ")
+        break
+print("Verified")
+
+
+
+
+
+
+
+
+#end of login block
+
+conn = sqlite3.connect("dexify.db")
 
 
 cursor = conn.cursor()
@@ -12,6 +34,7 @@ cursor.execute("""
         price FLOAT NOT NULL,
         quantity INTEGER NOT NULL,
         unit TEXT NOT NULL,
+        kcal FLOAT NOT NULL,
         ingredients TEXT,
         nutritional_values TEXT
     )
@@ -61,6 +84,7 @@ while True:
     while True:
         try:
             price = float(input("Price (in euros): "))
+            kcal = float(input("Calories (in kcal): "))
             quantity = int(input("Quantity: "))
             try:
                 unit = input("Unit of measure (g or l): ")
@@ -75,9 +99,9 @@ while True:
     # Add the article to the database
     try:
         cursor.execute("""
-            INSERT INTO articles (name, price, quantity, unit, ingredients, nutritional_values)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (article_name, price, quantity, unit, "\n".join(ingredients), "\n".join([f"{name}: {quantity}" for name, quantity in nutritional_values])))
+            INSERT INTO articles (name, price, quantity, unit, kcal, ingredients, nutritional_values)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (article_name, price, quantity, unit, kcal, "\n".join(ingredients), "\n".join([f"{name}: {quantity}" for name, quantity in nutritional_values])))
         conn.commit()
         print("Article added to the database.")
     except sqlite3.IntegrityError:
